@@ -18,6 +18,38 @@ RCT_EXPORT_METHOD(canAddPasses:(RCTPromiseResolveBlock)resolve
   resolve(@([PKAddPassesViewController canAddPasses]));
 }
 
+RCT_EXPORT_METHOD(containsPass:(NSString *)base64Encoded
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejector:(RCTPromiseRejectBlock)reject) {
+  NSData *data = [[NSData alloc] initWithBase64EncodedString:base64Encoded options:NSUTF8StringEncoding];
+  NSError *error;
+  PKPass *pass = [[PKPass alloc] initWithData:data error:&error];
+
+  if (error) {
+    reject(@"", @"Pass invalid.", error);
+    return;
+  }
+
+  PKPassLibrary *passLibrary = [[PKPassLibrary alloc] init];
+  resolve(@([passLibrary containsPass:pass]));
+}
+
+RCT_EXPORT_METHOD(showPass:(NSString *)base64Encoded
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejector:(RCTPromiseRejectBlock)reject) {
+  NSData *data = [[NSData alloc] initWithBase64EncodedString:base64Encoded options:NSUTF8StringEncoding];
+  NSError *error;
+  PKPass *pass = [[PKPass alloc] initWithData:data error:&error];
+
+  if (error) {
+    reject(@"", @"Pass invalid.", error);
+    return;
+  }
+
+  PKPassLibrary *passLibrary = [[PKPassLibrary alloc] init];
+  resolve(@([[UIApplication sharedApplication] openURL:[pass passURL]]));
+}
+
 RCT_EXPORT_METHOD(addPass:(NSString *)base64Encoded
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejector:(RCTPromiseRejectBlock)reject) {

@@ -118,6 +118,18 @@ class App extends Component<{}> {
 }
 ```
 
+### Check if a pass has already been added (iOS only)
+
+```jsx
+PassKit.containsPass(base64EncodedPass)
+```
+
+### Display a pass that has already been added (iOS only)
+
+```jsx
+PassKit.showPass(base64EncodedPass)
+```
+
 ### Constants (iOS only)
 
 - *PassKit.AddPassButtonStyle* - The appearance of the add-pass button
